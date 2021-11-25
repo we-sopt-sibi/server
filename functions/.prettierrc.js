@@ -6,4 +6,5 @@ module.exports = {
     arrowParens: "always",
     printWidth: 200,
     tabWidth: 2,
+    "editor.formatOnType": true,
   };
