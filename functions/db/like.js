@@ -23,7 +23,7 @@ const createLike = async (client, userId, articleId) => {
 
 
     
-    return convertSnakeToCamel.keysToCamel(rows)
-}
+    return convertSnakeToCamel.keysToCamel(rows);
+};
 
-module.exports = {createLike,}
+module.exports = {createLike,};

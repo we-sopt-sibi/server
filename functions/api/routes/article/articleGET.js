@@ -7,7 +7,7 @@ const { articleDB } = require('../../../db');
 
 module.exports = async (req, res) => {
 
-  const {articleId} = req.params
+  const {articleId} = req.params;
   
   // 필요한 값이 없을 때 보내주는 response
   if (!articleId) return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, responseMessage.NULL_VALUE));

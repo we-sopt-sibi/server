@@ -22,7 +22,7 @@ app.use(cors());
 if (process.env.NODE_ENV === 'production') {
   app.use(hpp());
   app.use(helmet());
-}
+};
 
 // request에 담긴 정보를 json 형태로 파싱하기 위한 미들웨어들
 app.use(express.json());
