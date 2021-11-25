@@ -1,6 +1,38 @@
 const _ = require('lodash');
+const dayjs = require('dayjs');
 const convertSnakeToCamel = require('../lib/converSnakeToCamel');
-const dayjs = require('dayjs')
+
+const getArticleList = async (client) => {
+  let newRows = [];
+  const { rows } = await client.query(`
+    SELECT * FROM "article" a
+    WHERE is_deleted = FALSE
+  `);
+
+  for (let r of rows) {
+    const createdDate = dayjs(r.updated_at).format('MMM DD.YYYY');
+    const updatedDate = dayjs(r.updated_at).format('MMM DD.YYYY');
+    const { rowCount } = await client.query(
+      `
+      SELECT * FROM "comment" c
+      WHERE article_id = $1
+      `,
+      [r.id],
+    );
+    const { rows } = await client.query(
+      `
+      SELECT name FROM "user" u
+      WHERE id = $1
+    `,
+      [r.writer],
+    );
+    r = { ...r, commentNumber: rowCount, writerName: rows[0].name, created_at: createdDate, updated_at: updatedDate };
+    newRows.push(r);
+  }
+
+  return convertSnakeToCamel.keysToCamel(newRows);
+};
+
 const getArticleById = async (client, articleId) => {
     const {rows:articleRows} = await client.query(
         `
@@ -15,7 +47,6 @@ const getArticleById = async (client, articleId) => {
     let updated_hour = (new Date(updated).getHours() + 9) % 24;
     
     const curhour = new Date().getHours();
-    
     
     if (curhour < updated_hour) {
         updated_hour = null; 
@@ -44,8 +75,6 @@ const getArticleById = async (client, articleId) => {
         [articleId]
     );
 
-    
-
     for (let i = 0; i < comments.length; i++) {
         const {rows:commentedUserRows} = await client.query(
             `
@@ -67,4 +96,4 @@ const getArticleById = async (client, articleId) => {
     return convertSnakeToCamel.keysToCamel(rows);
 }
 
-module.exports = { getArticleById, };
+module.exports = { getArticleList, getArticleById };
