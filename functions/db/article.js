@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const dayjs = require('dayjs');
 const convertSnakeToCamel = require('../lib/converSnakeToCamel');
 
 const getArticleList = async (client) => {
@@ -16,7 +17,7 @@ const getArticleList = async (client) => {
       `,
       [r.id],
     );
-    r = { ...r, comment_number: rowCount };
+    r = { ...r, comment_number: rowCount, created_at: dayjs(r.updated_at).format('MMM DD.YYYY'), updated_at: dayjs(r.updated_at).format('MMM DD.YYYY') };
     newRows.push(r);
   }
 
