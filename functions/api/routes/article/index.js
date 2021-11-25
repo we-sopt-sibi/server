@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
 
-router.use('/article', require('./article'));
+router.get('/list', require('./articleListGET'));
 
 module.exports = router;
