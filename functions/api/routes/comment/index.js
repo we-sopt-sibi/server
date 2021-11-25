@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 
-router.use('/article', require('./article'));
-router.use('/comment', require('./comment'));
+router.post('/', require('./commentPOST'));
 
 module.exports = router;
