@@ -11,8 +11,8 @@ const getArticleById = async (client, articleId) => {
         [articleId]
     );
 
-    var updated = String(articleRows[0].updated_at)
-    var updated_hour = (new Date(updated).getHours() + 9) % 24;
+    let updated = String(articleRows[0].updated_at)
+    let updated_hour = (new Date(updated).getHours() + 9) % 24;
     
     const curhour = new Date().getHours()
     
@@ -46,7 +46,7 @@ const getArticleById = async (client, articleId) => {
 
     
 
-    for (var i = 0; i < comments.length; i++) {
+    for (let i = 0; i < comments.length; i++) {
         const {rows:commentedUserRows} = await client.query(
             `
             SELECT id, name FROM "user"
