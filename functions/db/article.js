@@ -11,7 +11,18 @@ const getArticleById = async (client, articleId) => {
         [articleId]
     );
 
-    console.log(articleRows[0].name)
+    var updated = String(articleRows[0].updated_at)
+    var updated_hour = (new Date(updated).getHours() + 9) % 24;
+    
+    const curhour = new Date().getHours()
+
+    if (curhour < updated_hour) {
+        updated_hour = null; 
+    } else {
+        updated_hour = curhour - updated_hour;
+    }
+
+    articleRows[0].hour = updated_hour;
 
     const { rows:userRows } = await client.query(
         `

@@ -12,8 +12,6 @@ const createLike = async (client, userId, articleId) => {
         [articleId]
     );
 
-
-    
     const {rows} = await client.query(
         `
         INSERT INTO "like" (user_id, article_id)

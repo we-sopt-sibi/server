@@ -27,7 +27,7 @@ module.exports = async (req, res) => {
     const like = await likeDB.createLike(client, articleId, userId);
     
     // 성공적으로 users를 가져왔다면, response를 보내줍니다.
-    res.status(statusCode.OK).send(util.success(statusCode.OK, responseMessage.READ_ALL_USERS_SUCCESS, like));
+    res.status(statusCode.OK).send(util.success(statusCode.OK, responseMessage.LIKE_SUCCESS, like));
     
     // try문 안에서 에러가 발생했을 시 catch문으로 error객체가 넘어옵니다.
     // 이 error 객체를 콘솔에 찍어서 어디에 문제가 있는지 알아냅니다.
