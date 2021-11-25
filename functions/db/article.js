@@ -10,6 +10,8 @@ const getArticleList = async (client) => {
   `);
 
   for (let r of rows) {
+    const createdDate = dayjs(r.updated_at).format('MMM DD.YYYY');
+    const updatedDate = dayjs(r.updated_at).format('MMM DD.YYYY');
     const { rowCount } = await client.query(
       `
       SELECT * FROM "comment" c
@@ -17,7 +19,14 @@ const getArticleList = async (client) => {
       `,
       [r.id],
     );
-    r = { ...r, comment_number: rowCount, created_at: dayjs(r.updated_at).format('MMM DD.YYYY'), updated_at: dayjs(r.updated_at).format('MMM DD.YYYY') };
+    const { rows } = await client.query(
+      `
+      SELECT name FROM "user" u
+      WHERE id = $1
+    `,
+      [r.writer],
+    );
+    r = { ...r, commentNumber: rowCount, writerName: rows[0].name, created_at: createdDate, updated_at: updatedDate };
     newRows.push(r);
   }
 
